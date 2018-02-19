@@ -23,6 +23,11 @@ typedef struct {
     Size size;
 } Order;
 
+typedef struct {
+    Symbol symbol;
+    OrderId orderId;
+} SymbolOrderId;
+
 const Price MAX_PRICE = std::numeric_limits<Price>::max();
 const Price MIN_PRICE = Price(1);
 
