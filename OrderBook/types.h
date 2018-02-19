@@ -6,15 +6,13 @@
 
 #include <boost/serialization/strong_typedef.hpp>
 #include <limits>
-#include <array>
+#include <string>
 #include <stdint.h>
 
 typedef unsigned long OrderId;
 typedef unsigned long Size;
 typedef unsigned short Price;
-
-const short MAX_TICKER_LEGNTH=4;
-typedef std::array<char, MAX_TICKER_LEGNTH> Symbol;
+typedef std::string Symbol;
 enum class Side {ASK,BID};
 
 typedef struct {

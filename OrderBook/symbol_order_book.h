@@ -24,6 +24,7 @@ public:
 
 
     //Helper functions
+    inline bool isEmpty() { return symbolOrderBook.empty(); }
     OrderId getCurrentOrderId(const Symbol &s);
     Price getMinAskPrice(const Symbol &s);
     Price getMaxBidPrice(const Symbol &s);
