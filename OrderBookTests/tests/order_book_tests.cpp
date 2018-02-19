@@ -165,3 +165,40 @@ TEST(OrderBookTests, TestCancelOrder)
     EXPECT_TRUE(orderSize1.is_initialized());
     EXPECT_EQ(Size(0), orderSize1.get());
 }
+
+TEST(OrderBookTests, TestBestPriceForBidAndOffer)
+{
+    OrderBook ob;
+
+    Order order1 = { Side::BID, 100, 500 };
+    OrderId orderId1 = ob.addOrder(order1);
+    Order order2 = { Side::BID, 99, 500 };
+    OrderId orderId2 = ob.addOrder(order2);
+    EXPECT_EQ(Price(100), ob.getMaxBidPrice());
+
+    Order order3 = { Side::ASK, 101, 75 };
+    OrderId orderId3 = ob.addOrder(order3);
+    Order order4 = { Side::ASK, 102, 75 };
+    OrderId orderId4 = ob.addOrder(order4);
+    EXPECT_EQ(Price(101), ob.getMinAskPrice());
+}
+
+TEST(OrderBookTests, TestOrdersInPriceRange)
+{
+
+    OrderBook ob;
+
+    Order order1 = { Side::BID, 100, 500 };
+    OrderId orderId1 = ob.addOrder(order1);
+    Order order2 = { Side::BID, 99, 500 };
+    OrderId orderId2 = ob.addOrder(order2);
+    Order order3 = { Side::BID, 98, 500 };
+    OrderId orderId3 = ob.addOrder(order3);
+    Order order4 = { Side::BID, 97, 500 };
+    OrderId orderId4 = ob.addOrder(order4);
+    Order order5 = { Side::BID, 96, 500 };
+    OrderId orderId5 = ob.addOrder(order5);
+
+    std::vector<Order> orders = ob.getOrdersInPriceRange(Price(96), Price(99), Side::BID);
+    EXPECT_EQ(4, orders.size());
+}

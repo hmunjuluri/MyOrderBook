@@ -36,12 +36,13 @@ public:
     OrderId addOrder(Order order);
     void updateOrder(OrderId orderId, Size newSize);
     void cancelOrder(OrderId orderId);
+    inline Price getMinAskPrice() { return minAskPrice; }
+    inline Price getMaxBidPrice() { return maxBidPrice; }
+    std::vector<Order> getOrdersInPriceRange(Price start, Price end, Side side);
 
 
     //Helper functions
     inline OrderId getCurrentOrderId() { return currentOrderId; }
-    inline Price getMinAskPrice() { return minAskPrice; }
-    inline Price getMaxBidPrice() { return maxBidPrice; }
     inline Price getBidsSize() { return bids.size(); }
     inline Price getAsksSize() { return asks.size(); }
     boost::optional<Size> getOrderSize(OrderId orderId);

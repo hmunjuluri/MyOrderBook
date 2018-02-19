@@ -3,6 +3,7 @@
 //
 
 #include "order_book.h"
+#include "types.h"
 
 OrderBook::OrderBook() {
     /* Initialize bids and asks array */
@@ -121,5 +122,28 @@ Size OrderBook::getTotalSizeAtPrice(Price price, Side side) {
 OrderBook::~OrderBook() {
     bids.clear();
     asks.clear();
+}
+
+std::vector<Order> OrderBook::getOrdersInPriceRange(Price start, Price end, Side side) {
+    PricePoints &pricePoints = (side == Side::BID) ? bids : asks;
+    Price currentPrice = start;
+    std::vector<Order> ordersInPriceRange;
+    for(auto priceIter = pricePoints.begin() + start;
+            priceIter != pricePoints.begin() + (end+1); ++priceIter)
+    {
+        OrdersAtPrice &ordersAtPrice = *priceIter;
+        for(OrdersAtPrice::iterator orderIter = ordersAtPrice.begin();
+            orderIter != ordersAtPrice.end(); ++orderIter)
+        {
+            Order order;
+            order.price = currentPrice;
+            order.side = side;
+            order.size = orderIter->size;
+            ordersInPriceRange.push_back( order );
+        }
+
+        ++currentPrice;
+    }
+    return ordersInPriceRange;
 }
 
